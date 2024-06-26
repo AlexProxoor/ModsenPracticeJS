@@ -1,0 +1,43 @@
+.card-text-category {
+  font-family: Arial, sans-serif;
+  color: #636060;
+  text-decoration: underline;
+}
+
+.card-text-authors {
+  font-family: Georgia, serif;
+  color: rgba(102, 102, 102, 0.8);
+}
+
+.card-img-top {
+  width: 100%;
+  height: auto;
+}
+
+
+.heart-icon {
+  transition: transform 0.3s ease-in-out;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.heart-icon svg {
+  transition: stroke 0.3s ease-in-out, fill 0.3s ease-in-out;
+  fill: #ccc;
+  stroke: #fff;
+  transform: translate(-25%, 25%);
+}
+
+.heart-icon.active svg {
+  stroke: #e74c3c; 
+}
+
+.heart-icon.liked svg {
+  fill: #e74c3c; 
+}
+
+.heart-icon.hovered svg {
+  stroke: #e74c3c;
+  transform: translate(-25%, 25%) scale(1.5);
+}

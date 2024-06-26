@@ -36,3 +36,22 @@
     transform: rotate(360deg);
   }
 }
+
+
+.nav-link {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  color: #555;
+}
+
+.nav-link.active {
+  text-decoration: underline;
+}
+
+
