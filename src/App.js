@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, NavLink } from 'react-router-do
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min'
 import './App.css'
+import { ROUTE_HOME, ROUTE_DETAILS, ROUTE_LOGIN, ROUTE_FAVORITES } from './routes'
 
 import Main from './components/Main/Main'
 import BookOverview from './components/BookOverview/BookOverview'
@@ -17,7 +18,7 @@ function App() {
         <div>
           <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container">
-              <NavLink to="/" className="navbar-brand" end>Главная</NavLink>
+              <NavLink to={ROUTE_HOME} className="navbar-brand" end>Главная</NavLink>
 
               <button
                 className="navbar-toggler"
@@ -34,10 +35,10 @@ function App() {
               <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav me-auto">
                   <li className="nav-item">
-                    <NavLink to="/login" className="nav-link">Войти</NavLink>
+                    <NavLink to={ROUTE_LOGIN} className="nav-link">Войти</NavLink>
                   </li>
                   <li className="nav-item">
-                    <NavLink to="/favorites" className="nav-link">Избранное</NavLink>
+                    <NavLink to={ROUTE_FAVORITES} className="nav-link">Избранное</NavLink>
                   </li>
                 </ul>
               </div>
@@ -45,10 +46,10 @@ function App() {
           </nav>
 
           <Routes>
-            <Route path="/" element={<Main />} />
-            <Route path="/details/:bookId" element={<BookOverview />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/favorites" element={<Favorites />} />
+            <Route path={ROUTE_HOME} element={<Main />} />
+            <Route path={ROUTE_DETAILS} element={<BookOverview />} />
+            <Route path={ROUTE_LOGIN} element={<Login />} />
+            <Route path={ROUTE_FAVORITES} element={<Favorites />} />
           </Routes>
         </div>
       </Router>

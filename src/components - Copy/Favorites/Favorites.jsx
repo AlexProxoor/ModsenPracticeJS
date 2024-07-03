@@ -1,11 +1,12 @@
-import React from 'react'
-import { useFavorites } from '../../contexts/FavoritesContext'
-import BookCard from '../BookCard/BookCard'
-import './Favorites.css'
-import headerImage from '../../assets/sea.webp'
+import React from 'react';
+import { useFavorites } from '../../contexts/FavoritesContext';
+import BookCard from '../BookCard/BookCard';
+import './Favorites.css';
+import headerImage from '../../assets/sea.webp';
 
 function Favorites() {
-  const { favorites } = useFavorites()
+  const { favorites } = useFavorites();
+  console.log('dsvarf');
 
   return (
     <div className="container favorites-container">
@@ -17,13 +18,14 @@ function Favorites() {
         {favorites.length > 0 ? (
           favorites.map(book => (
             <BookCard key={book.id} book={book} />
+            
           ))
         ) : (
           <p className="favorites-empty">Здесь будут отображаться ваши избранные книги.</p>
         )}
       </div>
     </div>
-  )
+  );
 }
 
-export default Favorites
+export default Favorites;

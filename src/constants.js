@@ -14,3 +14,6 @@ export const sortOptions = [
   { value: 'relevance', label: 'Relevance' },
   { value: 'newest', label: 'Newest' },
 ]
+
+
+export const SEARCH_KEY = 'savedSearchQuery'

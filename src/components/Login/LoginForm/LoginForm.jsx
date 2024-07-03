@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-
+import { FaUser, FaLock } from 'react-icons/fa'
 import { signInWithEmailAndPassword } from "firebase/auth"
 import { auth } from '../../../Firebase'
 
@@ -19,6 +19,7 @@ const LoginForm = ({ toggleForm }) => {
         setEmail('')
         setPassword('')
         navigate('/favorites')
+
       })
       .catch((error) => {
         console.log(error);
@@ -31,7 +32,7 @@ const LoginForm = ({ toggleForm }) => {
       <div className="form-box login">
         <form>
           <h1>Login</h1>
-          {error && <div className="error-message">{error}</div>}
+         <p>почта - alex@gmail.com пороль - alex11</p>
           <div className="input-box">
             <input
               type="text"
@@ -40,7 +41,7 @@ const LoginForm = ({ toggleForm }) => {
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-           
+            <FaUser className="icon" />
           </div>
           <div className="input-box">
             <input
@@ -50,17 +51,10 @@ const LoginForm = ({ toggleForm }) => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-           
+            <FaLock className="icon" />
           </div>
-          <div className="remember-forgot">
-            <label>
-              <input type="checkbox" />
-              Remember me
-            </label>
-            <a href="/" onClick={(e) => e.preventDefault()}>
-              Forgot password?
-            </a>
-          </div>
+        
+          {error && <p className="error-message">{error}</p>}
           <button type="submit" onClick={login}>
             Login
           </button>

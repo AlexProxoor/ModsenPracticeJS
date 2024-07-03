@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'  
+import React, { useState, useEffect } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './Main.css'
-import { MAX_RESULTS } from '../../constants'
+import { MAX_RESULTS, SEARCH_KEY } from '../../constants'
 import { searchBooks } from '../../api'
 import BookSearch from '../BookSearch/BookSearch'
 import BookCategories from '../BookCategories/BookCategories'
@@ -11,8 +11,10 @@ import LoadingIndicator from '../LoadingIndicator/LoadingIndicator'
 import ErrorMessage from '../ErrorMessage/ErrorMessage'
 import BookCard from '../BookCard/BookCard'
 
+const apiKey = process.env.REACT_APP_GOOGLE_API_KEY
+
 function Main() {
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState(() => localStorage.getItem(SEARCH_KEY) || '')
   const [categories, setCategories] = useState('all')
   const [sort, setSort] = useState('relevance')
   const [books, setBooks] = useState([])
@@ -20,7 +22,6 @@ function Main() {
   const [page, setPage] = useState(0)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const apiKey = process.env.REACT_APP_GOOGLE_API_KEY
 
   useEffect(() => {
     if (!query) {
@@ -30,23 +31,11 @@ function Main() {
     const startIndex = page * MAX_RESULTS
     setLoading(true)
     setError(null)
-    const filterDuplicates = (items) => {
-      const uniqueItems = items.filter((item, index, self) =>
-        index === self.findIndex((t) => (
-          t.id === item.id
-        ))
-      )
-      return uniqueItems
-    }
-    
-    
+
     async function fetchData() {
       try {
         const { items, totalItems } = await searchBooks(query, categories, sort, apiKey, startIndex, MAX_RESULTS)
-    
-   
-        const uniqueItems = filterDuplicates(items);
-    
+        const uniqueItems = filterDuplicates(items)
         if (page === 0) {
           setBooks(uniqueItems)
         } else {
@@ -56,12 +45,12 @@ function Main() {
       } catch (error) {
         setError(error.message || 'An error occurred')
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     }
 
-    fetchData();
-  }, [query, categories, sort, page, apiKey])
+    fetchData()
+  }, [query, categories, sort, page])
 
   const handleInputChange = (event) => {
     setQuery(event.target.value)
@@ -70,21 +59,32 @@ function Main() {
   const handleSelectChange = (event) => {
     setCategories(event.target.value)
   }
+
   const handleSortChange = (event) => {
     setSort(event.target.value)
   }
 
   const handleSearchClick = () => {
     setPage(0)
+    localStorage.setItem(SEARCH_KEY, query)
   }
 
   const handleLoadMoreClick = () => {
     setPage(page + 1)
   }
-
   const handleSearchSubmit = (event) => {
     event.preventDefault()
     setPage(0)
+    localStorage.setItem(SEARCH_KEY, query)
+  }
+
+  const filterDuplicates = (items) => {
+    const uniqueItems = items.filter((item, index, self) =>
+      index === self.findIndex((t) => (
+        t.id === item.id
+      ))
+    )
+    return uniqueItems
   }
 
   return (
@@ -144,4 +144,4 @@ function Main() {
   )
 }
 
-export default Main 
+export default Main

@@ -1,36 +1,41 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import './BookCard.css'
-import { ReactComponent as HeartIcon } from '../../assets/icons/heart.svg'
-import { useFavorites } from '../../contexts/FavoritesContext'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import './BookCard.css';
+import { ReactComponent as HeartIcon } from '../../assets/icons/heart.svg';
+import { useFavorites } from '../../contexts/FavoritesContext';
 
 const BookCard = ({ book }) => {
-  const volumeInfo = book.volumeInfo
-  const title = volumeInfo.title || 'No title available'
-  const category = volumeInfo.categories ? volumeInfo.categories[0] : 'No category available'
-  const authors = volumeInfo.authors ? volumeInfo.authors.join(', ') : 'No authors available'
-  const thumbnail = volumeInfo.imageLinks ? volumeInfo.imageLinks.thumbnail : ''
 
-  const { addFavorite, removeFavorite, isFavorite } = useFavorites()
-  const [isHovered, setIsHovered] = useState(false)
-  const isLiked = isFavorite(book.id)
+  console.log('Book in BookCard:', book); // Добавляем эту строку
+
+  const volumeInfo = book.volumeInfo || {};
+  const title = volumeInfo.title || 'No title available';
+  const category = book.category || 'No category available'; // Используем поле category из Firestore
+  const authors = book.authors || 'No authors available'; // Используем поле authors из Firestore
+  const thumbnail = book.thumbnail || ''; // Используем поле thumbnail из Firestore
+
+
+
+  const { addFavorite, removeFavorite, isFavorite } = useFavorites();
+  const [isHovered, setIsHovered] = useState(false);
+  const isLiked = isFavorite(book.id);
 
   const handleMouseEnter = () => {
-    setIsHovered(true)
-  }
+    setIsHovered(true);
+  };
 
   const handleMouseLeave = () => {
-    setIsHovered(false)
-  }
+    setIsHovered(false);
+  };
 
   const handleHeartClick = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (isLiked) {
       removeFavorite(book.id);
     } else {
-      addFavorite(book)
+      addFavorite(book); // Убедитесь, что здесь правильно передается объект book
     }
-  }
+  };
 
   return (
     <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 position-relative">
@@ -62,7 +67,7 @@ const BookCard = ({ book }) => {
         </div>
       </Link>
     </div>
-  )
-}
+  );
+};
 
-export default BookCard
+export default BookCard;

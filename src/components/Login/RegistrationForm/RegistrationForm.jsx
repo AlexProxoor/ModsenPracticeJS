@@ -1,39 +1,45 @@
 import React, { useState } from 'react'
-
+import { createUserWithEmailAndPassword } from "firebase/auth"
+import { auth } from "../../..//Firebase"
+import { FaLock, FaEnvelope } from 'react-icons/fa'
 
 const RegistrationForm = ({ toggleForm }) => {
-  const [username, setUsername] = useState('');
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
-  const register = (e) => {
+  const [copyPassword, setcopyPassword] = useState('')
+  const [error, setError] = useState('')
+  function register(e) {
     e.preventDefault()
+    if (copyPassword !== password) {
+      setError('Passwords didnt match')
+      return
+    }
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((user) => {
+        console.log(user)
+        setError('')
+        setEmail('')
+        setcopyPassword('')
+        setPassword('')
+        console.log('registr!')
+      })
+      .catch((error) => console.log(error))
   }
-
   return (
     <div className="wrapper">
       <div className="form-box register">
-        <form>
+        <form onSubmit={register}> 
           <h1>Registration</h1>
           <div className="input-box">
             <input
-              type="text"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-          
-          </div>
-          <div className="input-box">
-            <input
-              type="email"
-              placeholder="Email"
+              placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              type="email"
               required
             />
-          
+            <FaEnvelope className="icon" />
           </div>
           <div className="input-box">
             <input
@@ -43,17 +49,25 @@ const RegistrationForm = ({ toggleForm }) => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-        
+            <FaLock className="icon" />
+            <input
+                    placeholder="Enter your password again"
+                    value={copyPassword}
+                    onChange={(e) => setcopyPassword(e.target.value)}
+                    type="password" 
+                    required/>
+                    <FaLock className="icon" />
           </div>
           <div className="remember-forgot">
             <label>
-              <input type="checkbox" />
-              I agree to the terms & conditions
+   
+           
             </label>
           </div>
-          <button type="submit" onClick={register}>
+          <button type="submit">
             Register
           </button>
+           {error ? <p style={{color: "red"}}>{error}</p> : ''}
           <div className="register-link">
             <p>
               Already have an account?{' '}
